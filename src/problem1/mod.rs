@@ -1,20 +1,3 @@
-use std::io;
-use std::io::{BufRead};
-
-pub fn p1_input() -> Vec<String> {
-    let stdin = io::stdin();
-    let mut data = stdin.lock().lines();
-    let mut lines = Vec::<String>::new();
-    while let Some(line) = data.next() {
-        let line = line.unwrap();
-        if line.is_empty() {
-            break;
-        }
-        lines.push(line);
-    }
-    lines
-}
-
 pub fn p1_1(data: &Vec<String>) -> u32 {
     let mut prev: Option<i32> = None;
     let mut count: u32 = 0;
