@@ -4,8 +4,10 @@ use std::io::{BufRead};
 
 mod problem1;
 mod problem2;
+mod problem3;
 use problem1::{p1_1, p1_2};
 use problem2::{p2_1, p2_2};
+use problem3::{p3_1, p3_2};
 
 pub fn input() -> Vec<String> {
     let stdin = io::stdin();
@@ -33,6 +35,10 @@ fn main() {
         2 => {
             let input = input();
             println!("p1: {} p2: {}", p2_1(&input), p2_2(&input));
+        },
+        3 => {
+            let input = input();
+            println!("p1: {} p2: {}", p3_1(&input), p3_2(&input));
         },
         _ => (),
     }
