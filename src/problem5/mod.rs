@@ -59,14 +59,11 @@ impl Line {
         let mut points: Vec<Point> = Vec::new();
         let offset = (self.a.x - self.b.x).abs();
 
-        if self.a.x < self.b.x && self.a.y < self.b.y {
-            for i in 0..(offset + 1) { points.push(Point::new(i, i, 0)) }
-        } else if self.a.x > self.b.x && self.a.y < self.b.y {
-            for i in 0..(offset + 1) { points.push(Point::new(-i, i, 0)) }
-        } else if self.a.x < self.b.x && self.a.y > self.b.y {
-            for i in 0..(offset + 1) { points.push(Point::new(i, -i, 0)) }
-        } else {
-            for i in 0..(offset + 1) { points.push(Point::new(-i, -i, 0)) }
+        match (self.a.x < self.b.x, self.a.y < self.b.y) {
+            (true, true) => for i in 0..(offset + 1) { points.push(Point::new(i, i, 0)) },
+            (false, true) => for i in 0..(offset + 1) { points.push(Point::new(-i, i, 0)) },
+            (true, false) => for i in 0..(offset + 1) { points.push(Point::new(i, -i, 0)) },
+            (false, false) => for i in 0..(offset + 1) { points.push(Point::new(-i, -i, 0)) },
         }
 
         for point in &mut points {
