@@ -11,7 +11,7 @@ struct Line {
     b: Point
 }
 
-const MAX_SIZE: usize = 10;
+const MAX_SIZE: usize = 1000;
 
 impl Point {
     fn new(x: i32, y: i32, m: i32) -> Self {
@@ -51,41 +51,27 @@ impl Line {
         Some(points)
     }
 
-    fn between(&self) -> Option<Vec<Point>> {
+    fn between_all(&self) -> Option<Vec<Point>> {
         if let Some(points) = self.between_hv() {
             return Some(points);
         }
 
         let mut points: Vec<Point> = Vec::new();
-        let minx = std::cmp::min(self.a.x, self.b.x);
-        let miny = std::cmp::min(self.a.y, self.b.y);
-        let maxx = std::cmp::max(self.a.x, self.b.x);
-        let maxy = std::cmp::max(self.a.y, self.b.y);
+        let offset = (self.a.x - self.b.x).abs();
 
-        let rangex: Vec<i32> = (minx..(maxx + 1)).collect();
-        let rangey: Vec<i32> = (miny..(maxy + 1)).collect();
-        let minrange = if rangex.len() < rangey.len() {&rangex} else {&rangey};
-
-        if std::ptr::eq(minrange, &rangex) {
-            let mut lastx: i32 = 0;
-            for i in 0..rangey.len() {
-                if rangex.get(i).is_none() {
-                    points.push(Point::new(lastx, rangey[i], 0));
-                } else {
-                    lastx = rangex[i];
-                    points.push(Point::new(lastx, rangey[i], 0));
-                }
-            }
+        if self.a.x < self.b.x && self.a.y < self.b.y {
+            for i in 0..(offset + 1) { points.push(Point::new(i, i, 0)) }
+        } else if self.a.x > self.b.x && self.a.y < self.b.y {
+            for i in 0..(offset + 1) { points.push(Point::new(-i, i, 0)) }
+        } else if self.a.x < self.b.x && self.a.y > self.b.y {
+            for i in 0..(offset + 1) { points.push(Point::new(i, -i, 0)) }
         } else {
-            let mut lasty: i32 = 0;
-            for i in 0..rangex.len() {
-                if rangey.get(i).is_none() {
-                    points.push(Point::new(rangex[i], lasty, 0));
-                } else {
-                    lasty = rangey[i];
-                    points.push(Point::new(rangex[i], lasty, 0));
-                }
-            }
+            for i in 0..(offset + 1) { points.push(Point::new(-i, -i, 0)) }
+        }
+
+        for point in &mut points {
+            point.x += self.a.x;
+            point.y += self.a.y;
         }
 
         Some(points)
@@ -149,17 +135,19 @@ fn filter_diagonal(lines: &Vec<Line>) -> Vec<Line> {
  
 pub fn p5_1(data: &Vec<String>) -> i32 {
     let lines = parse_lines(data);
-    let raw_points = parse_points(data);
     let filtered = filter_diagonal(&lines);
-    let mut grid: [[u32; MAX_SIZE]; MAX_SIZE] = [[0; MAX_SIZE]; MAX_SIZE];
+    let mut grid = vec![vec![0; MAX_SIZE]; MAX_SIZE];
 
     for line in filtered {
-        for point in line.between_hv().unwrap() {
-            grid[point.x as usize][point.y as usize] += 1;
+        let between = line.between_hv();
+        if between.is_some() {
+            for point in between.unwrap() {
+                grid[point.x as usize][point.y as usize] += 1;
+            }
         }
     }
 
-    let mut sum: u32 = 0;
+    let mut sum: i32 = 0;
     for i in 0..MAX_SIZE {
         for j in 0..MAX_SIZE {
             if grid[i][j] > 1 {
@@ -168,11 +156,31 @@ pub fn p5_1(data: &Vec<String>) -> i32 {
         }
     }
 
-    println!("Sum. {}", sum);
-    0
+    sum
 }
 
 pub fn p5_2(data: &Vec<String>) -> i32 {
-    0
+    let lines = parse_lines(data);
+    let mut grid = vec![vec![0; MAX_SIZE]; MAX_SIZE];
+
+    for line in lines {
+        let between = line.between_all();
+        if between.is_some() {
+            for point in between.unwrap() {
+                grid[point.x as usize][point.y as usize] += 1;
+            }
+        }
+    }
+
+    let mut sum: i32 = 0;
+    for i in 0..MAX_SIZE {
+        for j in 0..MAX_SIZE {
+            if grid[j][i] > 1 {
+                sum += 1;
+            }
+        }
+    }
+
+    sum
 }
 
