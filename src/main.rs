@@ -9,6 +9,7 @@ mod problem4;
 mod problem5;
 mod problem6;
 mod problem7;
+mod problem8;
 use problem1::{p1_1, p1_2};
 use problem2::{p2_1, p2_2};
 use problem3::{p3_1, p3_2};
@@ -16,6 +17,7 @@ use problem4::{p4_1, p4_2};
 use problem5::{p5_1, p5_2};
 use problem6::{p6_1, p6_2};
 use problem7::{p7_1, p7_2};
+use problem8::{p8_1, p8_2};
 
 //Accepts input via stdin, EOF needed
 pub fn input() -> Vec<String> {
@@ -39,27 +41,14 @@ fn main() {
     let input = input();
 
     match pno {
-        1 => {
-            println!("p1: {} p2: {}", p1_1(&input), p1_2(&input));
-        },
-        2 => {
-            println!("p1: {} p2: {}", p2_1(&input), p2_2(&input));
-        },
-        3 => {
-            println!("p1: {} p2: {}", p3_1(&input), p3_2(&input));
-        },
-        4 => {
-            println!("p1: {} p2: {}", p4_1(&input), p4_2(&input));
-        },
-        5 => {
-            println!("p1: {} p2: {}", p5_1(&input), p5_2(&input));
-        },
-        6 => {
-            println!("p1: {} p2: {}", p6_1(&input), p6_2(&input));
-        },
-        7 => {
-            println!("p1: {} p2: {}", p7_1(&input), p7_2(&input));
-        }
+        1 => println!("p1: {} p2: {}", p1_1(&input), p1_2(&input)),
+        2 => println!("p1: {} p2: {}", p2_1(&input), p2_2(&input)),
+        3 => println!("p1: {} p2: {}", p3_1(&input), p3_2(&input)),
+        4 => println!("p1: {} p2: {}", p4_1(&input), p4_2(&input)),
+        5 => println!("p1: {} p2: {}", p5_1(&input), p5_2(&input)),
+        6 => println!("p1: {} p2: {}", p6_1(&input), p6_2(&input)),
+        7 => println!("p1: {} p2: {}", p7_1(&input), p7_2(&input)),
+        8 => println!("p1: {} p2: {}", p8_1(&input), p8_2(&input)),
         _ => (),
     }
 }
