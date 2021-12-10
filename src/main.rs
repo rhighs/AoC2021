@@ -11,6 +11,7 @@ mod problem6;
 mod problem7;
 mod problem8;
 mod problem9;
+mod problem10;
 use problem1::{p1_1, p1_2};
 use problem2::{p2_1, p2_2};
 use problem3::{p3_1, p3_2};
@@ -20,6 +21,7 @@ use problem6::{p6_1, p6_2};
 use problem7::{p7_1, p7_2};
 use problem8::{p8_1, p8_2};
 use problem9::{p9_1, p9_2};
+use problem10::{p10_1, p10_2};
 
 //Accepts input via stdin, EOF needed
 pub fn input() -> Vec<String> {
@@ -52,6 +54,7 @@ fn main() {
         7 => println!("p1: {} p2: {}", p7_1(&input), p7_2(&input)),
         8 => println!("p1: {} p2: {}", p8_1(&input), p8_2(&input)),
         9 => println!("p1: {} p2: {}", p9_1(&input), p9_2(&input)),
+        10 => println!("p1: {} p2: {}", p10_1(&input), p10_2(&input)),
         _ => (),
     }
 }
