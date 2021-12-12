@@ -1,4 +1,5 @@
 from typing import List
+import sys
 
 class Node:
     def __init__(self, name: str, upper: bool) -> 'Node':
@@ -54,7 +55,7 @@ def paths_p2(graph: Graph, current_path: List[str], has_double: bool, found_path
 
 def main():
     lines: List[str] = []
-    with open("./input.txt", "r") as file:
+    with open("./" + str(sys.argv[1]), "r") as file:
         for line in file.readlines():
             line = line.replace("\n", "")
             lines.append(line)
