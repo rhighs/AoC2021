@@ -20,7 +20,7 @@ fn get_target(line: String) -> ((i32, i32), (i32, i32)) {
 }
 
 pub fn p17_1(data: &Vec<String>) -> u32 {
-    println!("{:?}", get_target(data[0]));
+    println!("{:?}", get_target(data[0].clone()));
     0
 }
 
