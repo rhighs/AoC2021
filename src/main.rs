@@ -74,9 +74,11 @@ fn main() {
         13 => println!("p1: {} p2: {}", p13_1(&input), p13_2(&input)),
         14 => println!("p1: {} p2: {}", p14_1(&input), p14_2(&input)),
         15 => println!("p1: {} p2: {}", p15_1(&input), p15_2(&input)),
+<<<<<<< HEAD
         16 => println!("p1: {} p2: {}", p16_1(&input), p16_2(&input)),
         17 => println!("p1: {} p2: {}", p17_1(&input), p17_2(&input)),
+=======
+>>>>>>> refs/remotes/origin/master
         _ => (),
     }
 }
-
