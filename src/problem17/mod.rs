@@ -27,39 +27,38 @@ pub fn p17_1(data: &Vec<String>) -> i32 {
     gauss(-(y_range.0 + 1)) as i32
 }
 
+fn step(coord: i32, is_x: bool) -> Vec<(i32, i32, bool)> {
+    let mut steps = Vec::new();
+    for initial_vel in (0..(coord + 1)).rev() {
+        let mut step = 0;
+        let mut remaining_vel = initial_vel;
+        let mut sum = remaining_vel;
+        while sum <= coord && remaining_vel >= 0 {
+            if sum == coord {
+                let step = if is_x {step} else {(initial_vel * 2) + step};
+                steps.push((step, initial_vel, remaining_vel > 0));
+            }
+            remaining_vel += if is_x {-1} else {1};
+            sum += remaining_vel;
+            step += 1;
+        }
+    }
+    steps
+}
+
 pub fn p17_2(data: &Vec<String>) -> i32 {
     let (x_range, y_range) = get_target(data[0].clone());
 
-    let test_step = |coord: i32, is_x: bool| -> Vec<(i32, i32, bool)> {
-        let mut steps = Vec::new();
-
-        for initial_vel in (0..(coord + 1)).rev() {
-            let mut step = 0;
-            let mut remaining_vel = initial_vel;
-            let mut sum = remaining_vel;
-
-            while sum <= coord && remaining_vel >= 0 {
-                if sum == coord {
-                    let step = if is_x {step} else {(initial_vel * 2) + step};
-                    steps.push((step, initial_vel, remaining_vel == 0));
-                }
-                remaining_vel += if is_x {-1} else {1};
-                sum += remaining_vel;
-                step += 1;
-            }
-        }
-
-        steps
-    };
-
     let mut steps_y = Vec::new();
-    for y in (y_range.1.abs())..(y_range.0.abs() + 1) {
-        steps_y.append(&mut test_step(y, false));
+    let y_range = ((y_range.1.abs())..(y_range.0.abs() + 1)).collect::<Vec<i32>>();
+    for y in &y_range {
+        steps_y.append(&mut step(*y, false));
     }
 
     let mut steps_x = Vec::new();
-    for x in (x_range.0.abs())..(x_range.1.abs() + 1) {
-        steps_x.append(&mut test_step(x, true));
+    let x_range = ((x_range.0.abs())..(x_range.1.abs() + 1)).collect::<Vec<i32>>();
+    for x in &x_range {
+        steps_x.append(&mut step(*x, true));
     }
 
     steps_x.sort();
@@ -75,15 +74,26 @@ pub fn p17_2(data: &Vec<String>) -> i32 {
     steps_y.sort();
     steps_y.pop();
 
-    let mut total = 0;
+    let mut couples = Vec::new();
     for x in &steps_x {
         for y in &steps_y {
-            if (x.2 == false && y.0 >= x.0) || x.0 == y.0 {
-                total += 1;
+            if y.0 == x.0 {
+                couples.push((x, y));
+            }
+            if x.2 == false && x.0 <= y.0 {
+                couples.push((x, y));
             }
         }
     }
 
-    total
+    let mut dedup_couples = Vec::<((i32, i32, bool), (i32, i32, bool))>::new();
+    for c in couples {
+        if !dedup_couples.iter().any(|c_| c.0.1 == c_.0.1 && c.1.1 == c_.1.1) {
+            let c = (*c.0, *c.1);
+            dedup_couples.push(c);
+        }
+    }
+
+    dedup_couples.len() as i32
 }
 
