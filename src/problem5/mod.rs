@@ -98,30 +98,6 @@ fn parse_lines(data: &Vec<String>) -> Vec<Line> {
     lines
 }
 
-fn parse_points(data: &Vec<String>) -> Vec<Point> {
-    let mut points_parsed: Vec<Point> = Vec::new();
-
-    for string in data {
-        let points_str: Vec<&str> = string.split(" -> ").collect();
-        let coords_a: Vec<&str> = points_str[0].split(",").collect();
-        let coords_b: Vec<&str> = points_str[1].split(",").collect();
-        let point_a = Point::new(
-            coords_a[0].parse().unwrap(),
-            coords_a[1].parse().unwrap(),
-            0
-            );
-        let point_b = Point::new(
-            coords_b[0].parse().unwrap(),
-            coords_b[1].parse().unwrap(),
-            0
-            );
-        points_parsed.push(point_a);
-        points_parsed.push(point_b);
-    }
-
-    points_parsed
-}
-
 fn filter_diagonal(lines: &Vec<Line>) -> Vec<Line> {
     lines
         .iter()
